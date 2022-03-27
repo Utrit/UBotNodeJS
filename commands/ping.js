@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
-var command = "ping"
+const command = "ping"
+const hasInteraction = false;
 function doCommand(message){
     message.channel.send("pong")
 }
-module.exports = {doCommand,command}
+module.exports = {doCommand,command,hasInteraction}
