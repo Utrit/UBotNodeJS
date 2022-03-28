@@ -36,4 +36,4 @@ function doInteraction(interaction, buttoninfo) {
     }
     if (buttoninfo.do == "delete") interaction.message.delete();
 }
-module.exports = { doCommand, command, hasInteraction, syntaxes,doInteraction }
+module.exports = { doCommand, command, hasInteraction, syntaxes,doInteraction}

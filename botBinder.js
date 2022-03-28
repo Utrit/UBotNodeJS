@@ -55,7 +55,9 @@ client.on('interactionCreate', interaction => {
     if (!interaction.isButton()) return;
     buttoninfo = JSON.parse(interaction.customId)
     if (checkForPermission(interaction.channel.permissionsFor(client.user)))
+    {
         interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
+    }
 });
 
 function checkForPermission(bitfield) {
