@@ -6,6 +6,7 @@ const errcode = {
     "reroll":"повторить запрос может только отправитель"
 }
 const command = "anime"
+const syntaxes = "Запрос на аниме картинку теги с gelbooru"
 const hasInteraction = "true"
 function doCommand(message,args){
     args.shift();
@@ -28,4 +29,4 @@ function doInteraction(interaction,buttoninfo){
         })
     }
 }
-module.exports = {doCommand,command,hasInteraction,doInteraction}
+module.exports = {doCommand,command,hasInteraction,doInteraction,syntaxes}

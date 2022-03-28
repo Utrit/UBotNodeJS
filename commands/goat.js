@@ -6,6 +6,7 @@ const errcode = {
     "reroll":"повторить запрос может только отправитель"
 }
 const command = "goat"
+const syntaxes = "Запрос на картинку козочки"
 const tags =["rating:safe","ganyu","1girl"]
 const hasInteraction = "true"
 function doCommand(message){
@@ -28,4 +29,4 @@ function doInteraction(interaction,buttoninfo){
         })
     }
 }
-module.exports = {doCommand,command,hasInteraction,doInteraction}
+module.exports = {doCommand,command,hasInteraction,doInteraction,syntaxes}

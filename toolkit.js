@@ -22,7 +22,7 @@ async function getMessage(tags,author,command,safe)
 {
     findCursedTags=[];
         for (let index = 0; index < tags.length; index++) {
-            if(cursedTags.includes(tags[index].replace(/[^A-Za-z]/ig,'') && safe)){
+            if(cursedTags.includes(tags[index].replace(/[^A-Za-z]/ig,'')) && safe){
                 console.log(`\x1b[31mcursed tag ${tags[index]} detected`);
                 findCursedTags[findCursedTags.length]=tags[index];
                 tags[index]='';

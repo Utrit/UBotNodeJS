@@ -6,6 +6,10 @@ const GelbooruApi = new Gelbooru();
 const holidays = require('../holidays.json');
 const command = "goodday"
 const hasInteraction = true;
+const errcode = {
+  "delete":"Удалить сообщение может только тот кто его отправил",
+  "reroll":"повторить запрос может только отправитель"
+}
 currHour = 0;
 const tags = 'Rating:Safe ganyu 1girl';
 const customInfodel = {"call":command,"id":"198570626082930689","do":"delete"}
