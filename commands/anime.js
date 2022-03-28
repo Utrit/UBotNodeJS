@@ -12,7 +12,7 @@ function doCommand(message,args){
     args.shift();
     toolkit.getMessage(args,message.author,command,true).then((data)=>{
     if(data.ready)message.channel.send({embeds:data.embeds,components:data.components});
-    if(!data.ready)message.send("Аниме не найдено");
+    if(!data.ready)message.reply("Аниме не найдено");
     })
 }
 function doInteraction(interaction,buttoninfo){

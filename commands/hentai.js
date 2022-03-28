@@ -9,7 +9,7 @@ const command = "hentai"
 const hasInteraction = "true"
 const allowedChannels = ["789551446952509473", "741034038801858731"]
 function doCommand(message, args) {
-    if (!allowedChannels.includes(message.channel.id)) return;
+    if (!(allowedChannels.includes(message.channel.id)||message.channel.type == "DM")) return;
     args.shift();
     toolkit.getMessage(args, message.author, command, false).then((data) => {
         if (data.ready) message.channel.send({ embeds: data.embeds, components: data.components });
@@ -25,7 +25,7 @@ function doInteraction(interaction, buttoninfo) {
     if (buttoninfo.do == "reroll") {
         let tags = interaction.message.embeds[0].description.split('`')[1].split(` `)
         interaction.deferUpdate().then(() => {
-            toolkit.getMessage(tags, interaction.user, command, true).then((data) => {
+            toolkit.getMessage(tags, interaction.user, command, false).then((data) => {
                 if (data.ready) interaction.editReply({ embeds: data.embeds, components: data.components });
             })
         })

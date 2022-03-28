@@ -48,13 +48,17 @@ client.on("messageCreate", async message => {
     let command = messageArgs[0].substring(1, messageArgs[0].length);
     if (alials[command]) command = alials[command];
     console.log(`\x1b[36mcall ${command} - by ${message.author.username} id - ${message.author.id}`);
-    if(checkForPermission(message.channel.permissionsFor(client.user)))
+    if(message.channel.type == "DM"){
+        commandEvent.emit(command, message, messageArgs, commandPrototypes)
+    }else if(checkForPermission(message.channel.permissionsFor(client.user)))
     commandEvent.emit(command, message, messageArgs, commandPrototypes)
 })
 client.on('interactionCreate', interaction => {
     if (!interaction.isButton()) return;
     buttoninfo = JSON.parse(interaction.customId)
-    if (checkForPermission(interaction.channel.permissionsFor(client.user)))
+    if(interaction.channel.type == "DM"){
+        interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
+    }else if (checkForPermission(interaction.channel.permissionsFor(client.user)))
     {
         interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
     }
