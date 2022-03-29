@@ -65,7 +65,7 @@ async function getMessage(tags, author, command, safe) {
                 .setDescription(`**Tags**:${post.tags.substring(0, 300)} \n **request**:\`${tags}\` \n*cursedTags*:${findCursedTags}`)
                 .setImage(videoExtensions.includes(extension)?post.preview_url:post.file_url)
             succses = true;
-            loginfo(`[${author.username}-${author.id}]call[${command}]find[${post.file_url}]search[${tags}]`)
+            loginfo(`${author.username},${author.id},${command},${post.file_url},-,-,${tags}`)
             return { ready: succses, url: post.file_url, embeds: [embed], components: [rowButton], files: [] };
         }
     }
@@ -73,9 +73,9 @@ async function getMessage(tags, author, command, safe) {
 }
 function loginfo(info){
     var timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var log = `[${timestamp}]${info}`
+    var log = `${timestamp},${info}`
     console.log("\x1b[36m"+log)
-    filesystem.appendFileSync(__dirname+config.logs,log+'\n')
+    filesystem.appendFileSync(getlogpath(),log+'\n')
 }
 function getlogpath(){
     return __dirname+config.logs;
