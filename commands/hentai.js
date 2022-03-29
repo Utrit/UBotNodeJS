@@ -26,7 +26,7 @@ function doInteraction(interaction, buttoninfo) {
         let tags = interaction.message.embeds[0].description.split('`')[1].split(` `)
         interaction.deferUpdate().then(() => {
             toolkit.getMessage(tags, interaction.user, command, false).then((data) => {
-                if (data.ready) interaction.editReply({ embeds: data.embeds, components: data.components });
+                if (data.ready) interaction.editReply({ embeds: data.embeds, components: data.components }).catch((err)=>toolkit.loginfo(err));
             })
         })
     }

@@ -61,10 +61,10 @@ client.on('interactionCreate', interaction => {
     if (!interaction.isButton()) return;
     buttoninfo = JSON.parse(interaction.customId)
     if (interaction.channel.type == "DM") {
-        toolkit.loginfo(`[${interaction.user.username}-${interaction.user.id}]interact[${buttoninfo.call}]in[${interaction.channel.type}]`)
+        toolkit.loginfo(`[${interaction.user.username}-${interaction.user.id}]interact[${buttoninfo.call}-${buttoninfo.do}]in[${interaction.channel.type}]`)
         interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
     } else if (checkForPermission(interaction.channel.permissionsFor(client.user))) {
-        toolkit.loginfo(`[${interaction.user.username}-${interaction.user.id}]interact[${buttoninfo.call}]in[${interaction.channel.type}-${interaction.channel.name}-${interaction.guild.name}]`)
+        toolkit.loginfo(`[${interaction.user.username}-${interaction.user.id}]interact[${buttoninfo.call}-${buttoninfo.do}]in[${interaction.channel.type}-${interaction.channel.name}-${interaction.guild.name}]`)
         interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
     }
 });
