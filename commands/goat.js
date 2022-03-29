@@ -24,7 +24,7 @@ function doInteraction(interaction, buttoninfo) {
     if (buttoninfo.do == "reroll") {
         interaction.deferUpdate().then(() => {
             toolkit.getMessage(tags, interaction.user, command, true).then((data) => {
-                if (data.ready) interaction.editReply({ embeds: data.embeds, components: data.components });
+                if (data.ready) interaction.editReply({ embeds: data.embeds, components: data.components }).catch((err)=>toolkit.loginfo(err));
             })
         })
     }

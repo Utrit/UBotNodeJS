@@ -77,4 +77,7 @@ function loginfo(info){
     console.log("\x1b[36m"+log)
     filesystem.appendFileSync(__dirname+config.logs,log+'\n')
 }
-module.exports = { getMessage, addCursedTag,loginfo }
+function getlogpath(){
+    return __dirname+config.logs;
+}
+module.exports = { getMessage, addCursedTag,loginfo,getlogpath}

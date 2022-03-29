@@ -7,14 +7,6 @@ const errcode = {
     "delete": "Удалить сообщение может только тот кто его отправил",
     "reroll": "повторить запрос может только отправитель"
 }
-const customInfodel = {"call":command,"id":"198570626082930689","do":"delete"}
-const rowButton = new MessageActionRow()
-    .addComponents(
-        new MessageButton()
-            .setLabel('Удалить')
-            .setCustomId(JSON.stringify(customInfodel))
-            .setStyle('PRIMARY')
-    )
 
 const hasInteraction = true;
 function doCommand(message, messageArgs, commandPrototypes) {
@@ -23,6 +15,14 @@ function doCommand(message, messageArgs, commandPrototypes) {
         const element = commandPrototypes[index];
         if (element.syntaxes != undefined) helpmsg = helpmsg + `**${config.prefix}${element.command}** - ${element.syntaxes}\n`
     }
+    let customInfodel = {"call":command,"id":message.author.id,"do":"delete"}
+    let rowButton = new MessageActionRow()
+    .addComponents(
+        new MessageButton()
+            .setLabel('Удалить')
+            .setCustomId(JSON.stringify(customInfodel))
+            .setStyle('PRIMARY')
+    )
     let embed = new MessageEmbed()
         .setColor("#FFD700")
         .setAuthor({ name: `Помощь для ${message.author.username}`, iconURL: message.author.avatarURL()})
