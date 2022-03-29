@@ -56,7 +56,7 @@ client.on("messageCreate", async message => {
         toolkit.loginfo(`${message.author.username},${message.author.id},${command},${message.channel.type},-,-,${messageArgs}`)
         commandEvent.emit(command, message, messageArgs, commandPrototypes)
     } else if (checkForPermission(message.channel.permissionsFor(client.user))) {
-        toolkit.loginfo(`${message.author.username},${message.author.id},${command},${message.channel.type},${message.channel.name},${message.guild.name},${messageArgs}`)
+        toolkit.loginfo(`${message.author.username},${message.author.id},${command},${message.channel.type},${message.channel.name},${message.guild.name},${messageArgs.join(' ')}`)
         commandEvent.emit(command, message, messageArgs, commandPrototypes)
     }
 })

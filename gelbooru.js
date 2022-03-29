@@ -99,7 +99,7 @@ class Gelbooru {
 
     async getRandomPost(tags = this.tags, limit = this.limit, pid = 0) {
         return new Promise(async (resolve, reject) => {
-            const posts = await this.getPosts(tags, limit, pid);
+            const posts = await this.getPosts(tags+"sort:random", limit, pid);
             if (posts.success == false) resolve(posts);
             resolve(posts[Math.floor(Math.random() * posts.length)]);
         })

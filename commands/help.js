@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const config = require("../config.json")
+const alials = require("../alials.json");
 const command = "help"
 const syntaxes = "Помощь по командам"
 const errcode = {
@@ -11,10 +12,19 @@ const errcode = {
 const hasInteraction = true;
 function doCommand(message, messageArgs, commandPrototypes) {
     helpmsg = ""
+    arg = ""
+    if (messageArgs[1]!=undefined){
+        arg = messageArgs[1]
+    if (alials[messageArgs[1]]) arg = alials[messageArgs[1]];}
     for (let index = 0; index < commandPrototypes.length; index++) {
         const element = commandPrototypes[index];
         if (element.syntaxes != undefined) helpmsg = helpmsg + `**${config.prefix}${element.command}** - ${element.syntaxes}\n`
+        if (arg==element.command && element.help!=undefined){
+            helpmsg = `**Подробная информация по использованию:!${arg}**\n${element.help}`
+            break;
+        }
     }
+    helpmsg = helpmsg +`\n *version:${config.version} author:${config.author}*`
     let customInfodel = {"call":command,"id":message.author.id,"do":"delete"}
     let rowButton = new MessageActionRow()
     .addComponents(

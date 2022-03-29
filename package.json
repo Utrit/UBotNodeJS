@@ -1,0 +1,24 @@
+{
+  "name": "ubotdiscord",
+  "version": "0.2.1",
+  "description": "fun bot for discord made on nodejs",
+  "main": "botBinder.js",
+  "scripts": {
+    "test": "!ping"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "discordjs",
+    "nodejs",
+    "anime",
+    "arts"
+  ],
+  "author": "Utrit",
+  "license": "MIT",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "discord.js": "^13.6.0",
+    "serve-static": "^1.15.0"
+  }
+}

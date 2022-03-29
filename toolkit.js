@@ -17,7 +17,7 @@ function getTags(args) {
     for (let index = 1; index < args.length; index++) {
         if (args[index] != '') result = result + " " + args[index];
     }
-    return result.replace(/[^A-Za-z1-9 _;.:,+*^()\-?]/ig, '');
+    return result.replace(/[^A-Za-z0-9 _;.:,+*^()\-?{}~<=>]/ig, '');
 }
 async function getMessage(tags, author, command, safe) {
     findCursedTags = [];
@@ -34,7 +34,7 @@ async function getMessage(tags, author, command, safe) {
     tags = getTags(tags)
     let succses = false
     for (let index = 0; index < 10; index++) {
-        post = await GelbooruApi.getRandomPost(tags, 10, Math.floor(Math.random() * 100 / ((index + 1) * (index + 1))))
+        post = await GelbooruApi.getRandomPost(tags, 10, 1)
         if (post.file_url != undefined && !succses) {
             var extension = post.file_url.split('.')
             var extension = extension[extension.length - 1]
@@ -65,7 +65,7 @@ async function getMessage(tags, author, command, safe) {
                 .setDescription(`**Tags**:${post.tags.substring(0, 300)} \n **request**:\`${tags}\` \n*cursedTags*:${findCursedTags}`)
                 .setImage(videoExtensions.includes(extension)?post.preview_url:post.file_url)
             succses = true;
-            loginfo(`${author.username},${author.id},${command},${post.file_url},-,-,${tags}`)
+            loginfo(`${author.username},${author.id},${command}-find,${post.file_url},-,-,${tags}`)
             return { ready: succses, url: post.file_url, embeds: [embed], components: [rowButton], files: [] };
         }
     }

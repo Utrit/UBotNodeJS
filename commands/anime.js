@@ -7,6 +7,7 @@ const errcode = {
 }
 const command = "anime"
 const syntaxes = "Запрос на аниме картинку теги с gelbooru"
+const help = "формат команды **<!anime tag1 tag2 etc.>**\n так же вы можете использовать спец теги \n**<{tag1 ~ tag2 ~ etc.}>** означает что тег будет или тот или другой\n**<-tag1>** убрать тег из выдачи\n**<\*tag1>,<tag1\*>** позволяет написать тег неточно(например только часть имени)\n**<score:>150>** найти изображение с оценкой > 150"
 const hasInteraction = "true"
 function doCommand(message,args){
     args.shift();
@@ -30,4 +31,4 @@ function doInteraction(interaction,buttoninfo){
         })
     }
 }
-module.exports = {doCommand,command,hasInteraction,doInteraction,syntaxes}
+module.exports = {doCommand,command,hasInteraction,doInteraction,syntaxes,help}
