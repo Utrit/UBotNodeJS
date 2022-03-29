@@ -31,7 +31,6 @@ async function getMessage(tags, author, command, safe) {
     }
     if (safe) tags.splice(0, 0, `rating:safe`);
     if (!safe) tags.splice(0, 0, `rating:explicit`);
-    console.log(`\x1b[36mSearch for tags:"${tags}"`);
     tags = getTags(tags)
     let succses = false
     for (let index = 0; index < 10; index++) {
@@ -66,9 +65,16 @@ async function getMessage(tags, author, command, safe) {
                 .setDescription(`**Tags**:${post.tags.substring(0, 300)} \n **request**:\`${tags}\` \n*cursedTags*:${findCursedTags}`)
                 .setImage(videoExtensions.includes(extension)?post.preview_url:post.file_url)
             succses = true;
+            loginfo(`[${author.username}-${author.id}]call[${command}]find[${post.file_url}]search[${tags}]`)
             return { ready: succses, url: post.file_url, embeds: [embed], components: [rowButton], files: [] };
         }
     }
     return { ready: false };
 }
-module.exports = { getMessage, addCursedTag }
+function loginfo(info){
+    var timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    var log = `[${timestamp}]${info}`
+    console.log("\x1b[36m"+log)
+    filesystem.appendFileSync(__dirname+config.logs,log+'\n')
+}
+module.exports = { getMessage, addCursedTag,loginfo }

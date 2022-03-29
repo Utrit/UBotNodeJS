@@ -3,6 +3,7 @@ const holidays = require('./holidays.json');
 const filesystem = require("fs");
 const config = require("./config.json");
 const alials = require("./alials.json");
+const toolkit = require("./toolkit.js")
 const { Permissions } = require('discord.js');
 const { EventEmitter } = require("stream");
 const client = new Discord.Client({
@@ -47,19 +48,23 @@ client.on("messageCreate", async message => {
     if (!messageArgs[0].startsWith(config.prefix)) return;
     let command = messageArgs[0].substring(1, messageArgs[0].length);
     if (alials[command]) command = alials[command];
-    console.log(`\x1b[36mcall ${command} - by ${message.author.username} id - ${message.author.id}`);
-    if(message.channel.type == "DM"){
+
+    if (message.channel.type == "DM") {
+        toolkit.loginfo(`[${message.author.username}-${message.author.id}]call[${command}]in[${message.channel.type}]args[${messageArgs}]`)
         commandEvent.emit(command, message, messageArgs, commandPrototypes)
-    }else if(checkForPermission(message.channel.permissionsFor(client.user)))
-    commandEvent.emit(command, message, messageArgs, commandPrototypes)
+    } else if (checkForPermission(message.channel.permissionsFor(client.user))) {
+        toolkit.loginfo(`[${message.author.username}-${message.author.id}]call[${command}]in[${message.channel.type}-${message.channel.name}-${message.guild.name}]args[${messageArgs}]`)
+        commandEvent.emit(command, message, messageArgs, commandPrototypes)
+    }
 })
 client.on('interactionCreate', interaction => {
     if (!interaction.isButton()) return;
     buttoninfo = JSON.parse(interaction.customId)
-    if(interaction.channel.type == "DM"){
+    if (interaction.channel.type == "DM") {
+        toolkit.loginfo(`[${interaction.user.username}-${interaction.user.id}]interact[${buttoninfo.call}]in[${interaction.channel.type}]`)
         interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
-    }else if (checkForPermission(interaction.channel.permissionsFor(client.user)))
-    {
+    } else if (checkForPermission(interaction.channel.permissionsFor(client.user))) {
+        toolkit.loginfo(`[${interaction.user.username}-${interaction.user.id}]interact[${buttoninfo.call}]in[${interaction.channel.type}-${interaction.channel.name}-${interaction.guild.name}]`)
         interactionEvent.emit(buttoninfo.call, interaction, buttoninfo)
     }
 });
