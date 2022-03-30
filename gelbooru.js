@@ -82,7 +82,7 @@ class Gelbooru {
                     reject(err);
                 } else {
                     const posts = JSON.parse(body);
-                    if (!posts.post) resolve({ success: false, message: 'No posts found' });
+                    if (!posts.post) resolve({ success: false, message: 'No posts found',tags:[]});
                     this.lastPosts = posts;
                     resolve(posts.post);
                 }
@@ -101,11 +101,13 @@ class Gelbooru {
     async getRandomPost(tags = this.tags, limit = this.limit, pid = 0,safe = true,tagsFilter = []) {
         return new Promise(async (resolve, reject) => {
             const posts = await this.getPosts(tags+" sort:random", limit, pid,safe);
-            if (posts.success == false) resolve(posts);
+            if (posts.success == false) {resolve(posts);}else{
+            console.log(posts);
             let post = posts[0];
             let postTags = post.tags.split(' ');
             if (tagsFilter.some(e=>postTags.includes(e))) resolve({ success: false, message: 'Filtred tags' });
             resolve(post);
+            }
         })
     }
 
