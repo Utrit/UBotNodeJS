@@ -7,10 +7,15 @@ const GelbooruApi = new Gelbooru();
 const config = require("./config.json");
 const videoExtensions = ["mp4","webm"];
 var cursedTags = JSON.parse(filesystem.readFileSync(__dirname + config.cursedTags))
+var cursedTagsNSFW = JSON.parse(filesystem.readFileSync(__dirname + config.cursedTagsNSFW))
 console.log(`List of cursedTags ${cursedTags}`);
 function addCursedTag(tag) {
     cursedTags[cursedTags.length] = tag;
     filesystem.writeFileSync(__dirname + config.cursedTags, JSON.stringify(cursedTags))
+}
+function addCursedTagNSFW(tag) {
+    cursedTagsNSFW[cursedTagsNSFW.length] = tag;
+    filesystem.writeFileSync(__dirname + config.cursedTagsNSFW, JSON.stringify(cursedTagsNSFW))
 }
 function getTags(args) {
     let result = args[0]
@@ -21,8 +26,9 @@ function getTags(args) {
 }
 async function getMessage(tags, author, command, safe) {
     findCursedTags = [];
+    tagFilter = safe?cursedTags:cursedTagsNSFW;
     for (let index = 0; index < tags.length; index++) {
-        if (cursedTags.includes(tags[index].replace(/[^A-Za-z]/ig, '')) && safe) {
+        if (tagFilter.includes(tags[index].replace(/[^A-Za-z]/ig, ''))) {
             console.log(`\x1b[31mcursed tag ${tags[index]} detected`);
             findCursedTags[findCursedTags.length] = tags[index];
             tags[index] = '';
@@ -33,8 +39,8 @@ async function getMessage(tags, author, command, safe) {
     if (!safe) tags.splice(0, 0, `rating:explicit`);
     tags = getTags(tags)
     let succses = false
-    for (let index = 0; index < 1; index++) {
-        post = await GelbooruApi.getRandomPost(tags, 1, 1)
+    for (let index = 0; index < 10; index++) {
+        post = await GelbooruApi.getRandomPost(tags, 1, 1,safe,safe?cursedTags:cursedTagsNSFW)
         if (post.file_url != undefined && !succses) {
             var extension = post.file_url.split('.')
             var extension = extension[extension.length - 1]
@@ -80,4 +86,4 @@ function loginfo(info){
 function getlogpath(){
     return __dirname+config.logs;
 }
-module.exports = { getMessage, addCursedTag,loginfo,getlogpath}
+module.exports = { getMessage, addCursedTag,loginfo,getlogpath,addCursedTagNSFW}

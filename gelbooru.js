@@ -60,6 +60,7 @@ class Gelbooru {
 
     constructor(tags = '', limit = 10) {
         this.baseUrl = 'https://gelbooru.com/index.php?page=dapi&q=index&json=1'; // Base URL for Gelbooru API, you can change it if gelbooru changes it.
+        this.ruleUrl = 'https://api.rule34.xxx/index.php?page=dapi&q=index&json=1';
         this.tags = formatTags(tags); // Tags to search for.
         this.limit = 10;
         this.lastPosts = [];
@@ -97,11 +98,14 @@ class Gelbooru {
      * @return {Promise<Post>}
      */
 
-    async getRandomPost(tags = this.tags, limit = this.limit, pid = 0) {
+    async getRandomPost(tags = this.tags, limit = this.limit, pid = 0,safe = true,tagsFilter = []) {
         return new Promise(async (resolve, reject) => {
-            const posts = await this.getPosts(tags+" sort:random", limit, pid);
+            const posts = await this.getPosts(tags+" sort:random", limit, pid,safe);
             if (posts.success == false) resolve(posts);
-            resolve(posts[Math.floor(Math.random() * posts.length)]);
+            let post = posts[0];
+            let postTags = post.tags.split(' ');
+            if (tagsFilter.some(e=>postTags.includes(e))) resolve({ success: false, message: 'Filtred tags' });
+            resolve(post);
         })
     }
 
@@ -113,9 +117,10 @@ class Gelbooru {
      * @return {Promise<Tag>}
      */
 
-    async getTags(limit = 10, orderBy = 'count', afterId = 0) {
+    async getTags(limit = 10, orderBy = 'count', afterId = 0,safe = true) {
+        console.log(safe?this.baseUrl:this.ruleUrl+"tags");
         return new Promise((resolve, reject) => {
-            request(`${this.baseUrl}&s=tag&limit=${limit}&order=${orderBy}&after_id=${afterId}`, (err, res, body) => {
+            request(`${safe?this.baseUrl:this.ruleUrl}&s=tag&limit=${limit}&order=${orderBy}&after_id=${afterId}`, (err, res, body) => {
                 if (err) {
                     reject(err);
                 } else {

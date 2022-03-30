@@ -28,11 +28,10 @@ function doCommand(message, messageArgs, commandPrototypes) {
             .setCustomId(JSON.stringify(customInfodel))
             .setStyle('PRIMARY')
     )
-    console.log(member.roles.cache.color);
     let embed = new MessageEmbed()
     .setAuthor({ name: `Информация для ${message.author.username}`, iconURL: message.author.avatarURL()})
     .setColor(member.displayHexColor)
-    .setImage(user.avatarURL())
+    .setImage(member.displayAvatarURL({dynamic:true,size:1024}))
     .addField('Имя', user.username)
     .addField('Айди', user.id)
     .addField('Вид аккаунта', `${user.bot ? 'Сбойный ии' : 'Кожаный мешок'}`)
@@ -48,4 +47,4 @@ function doInteraction(interaction, buttoninfo) {
     }
     if (buttoninfo.do == "delete") interaction.message.delete();
 }
-module.exports = { doCommand, command, hasInteraction, syntaxes,doInteraction}
+module.exports = { doCommand, command, hasInteraction, syntaxes,doInteraction,help}

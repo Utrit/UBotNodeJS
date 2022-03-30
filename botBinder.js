@@ -7,12 +7,15 @@ const toolkit = require("./toolkit.js")
 const { Permissions } = require('discord.js');
 const { EventEmitter } = require("stream");
 const { fork } = require('child_process');
+const { command } = require("./commands/hentai");
 const client = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
     partials: ["CHANNEL"]
 });
 const commandEvent = new EventEmitter;
 const interactionEvent = new EventEmitter;
+commandEvent.setMaxListeners(0);
+interactionEvent.setMaxListeners(0);
 var commandModules = filesystem.readdirSync(__dirname + config.modulePath);
 var commandPrototypes = [];
 var logchannel;
