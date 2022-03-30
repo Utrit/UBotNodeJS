@@ -8,7 +8,7 @@ const errcode = {
 const command = "hentai"
 const hasInteraction = "true"
 const syntaxes = "Запрос на nsfw картинку теги с аналогично anime(работает только в лс)"
-const allowedChannels = ["789551446952509473", "741034038801858731"]
+const allowedChannels = ["789551446952509473", "741034038801858731","908117945694179349"]
 function doCommand(message, args) {
     if (!(allowedChannels.includes(message.channel.id)||message.channel.type == "DM")) return;
     args.shift();
