@@ -12,8 +12,38 @@ const errcode = {
 
 const hasInteraction = true;
 async function doCommand(message, messageArgs, commandPrototypes) {
-    if (message.channel.type == "DM" || messageArgs[1] == undefined) return;
-    member = message.guild.members.cache.get(messageArgs[1].replace(/[^0-9]/ig, ''));
+    if (message.channel.type == "DM") return;
+    if (messageArgs[1]!=undefined) {
+        member = message.guild.members.cache.get(messageArgs[1].replace(/[^0-9]/ig, ''));
+        onUser(message,member);
+    }
+    if (message.attachments['size']!=0) {
+        attachedFile = message.attachments.values().next().value['attachment']
+        onFile(message,attachedFile)
+    }
+}
+
+async function onFile(message,attachedFile){
+    let animatedGif = await petPetGif(
+        attachedFile,
+        {
+            resolution: 200,
+        });
+    const file = new MessageAttachment(animatedGif, "pet.gif");
+    let customInfodel = { "call": command, "id": message.author.id, "do": "delete" };
+    let rowButton = new MessageActionRow()
+        .addComponents(
+            new MessageButton()
+                .setLabel('Удалить')
+                .setCustomId(JSON.stringify(customInfodel))
+                .setStyle('PRIMARY')
+        )
+    let embed = new MessageEmbed()
+        .setAuthor({ name: `${message.author.username} жмякает картинку`, iconURL: message.author.avatarURL() })
+        .setImage("attachment://pet.gif")
+    message.channel.send({ embeds: [embed], components: [rowButton], files: [file] });
+}
+async function onUser(message,member){
     if (member == undefined) {
         message.reply("Данный аккаунт не найден")
         return;
@@ -34,7 +64,7 @@ async function doCommand(message, messageArgs, commandPrototypes) {
                 .setStyle('PRIMARY')
         )
     let embed = new MessageEmbed()
-        .setAuthor({ name: `${message.author.username} Жмякает ${user.username}`, iconURL: message.author.avatarURL() })
+        .setAuthor({ name: `${message.author.username} жмякает ${user.username}`, iconURL: message.author.avatarURL() })
         .setImage("attachment://pet.gif")
     message.channel.send({ embeds: [embed], components: [rowButton], files: [file] });
 }
