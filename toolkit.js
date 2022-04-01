@@ -22,7 +22,7 @@ function getTags(args) {
     for (let index = 1; index < args.length; index++) {
         if (args[index] != '') result = result + " " + args[index];
     }
-    return result.replace(/[^A-Za-z0-9 _;.:,+*^()\-?{}~<=>'"]/ig, '');
+    return result.replace(/[^A-Za-z0-9 _;.:!+*^()\-?{}~<=>'"]/ig, '');
 }
 async function getMessage(tags, author, command, safe) {
     findCursedTags = [];

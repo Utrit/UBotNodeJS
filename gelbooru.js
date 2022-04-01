@@ -75,16 +75,17 @@ class Gelbooru {
      * @return {Promise<Post>}
      */
 
-    async getPosts(tags = this.tags, limit = this.limit, pid = 0) {
+    async getPosts(tags = this.tags, limit = this.limit, pid = 0,safe) {
         return new Promise((resolve, reject) => {
             request(`${this.baseUrl}&s=post&tags=${tags}&limit=${limit}&pid=${pid}`, (err, res, body) => {
                 if (err) {
                     reject(err);
                 } else {
-                    const posts = JSON.parse(body);
-                    if (!posts.post) resolve({ success: false, message: 'No posts found',tags:[]});
+                    let posts = JSON.parse(body);
+                    if (posts.post) posts=posts.post
+                    if (!posts[0].tags) resolve({ success: false, message: 'No posts found',tags:[]});
                     this.lastPosts = posts;
-                    resolve(posts.post);
+                    resolve(posts);
                 }
             });
         })
@@ -102,7 +103,6 @@ class Gelbooru {
         return new Promise(async (resolve, reject) => {
             const posts = await this.getPosts(tags+" sort:random", limit, pid,safe);
             if (posts.success == false) {resolve(posts);}else{
-            console.log(posts);
             let post = posts[0];
             let postTags = post.tags.split(' ');
             if (tagsFilter.some(e=>postTags.includes(e))) resolve({ success: false, message: 'Filtred tags' });
@@ -120,9 +120,8 @@ class Gelbooru {
      */
 
     async getTags(limit = 10, orderBy = 'count', afterId = 0,safe = true) {
-        console.log(safe?this.baseUrl:this.ruleUrl+"tags");
         return new Promise((resolve, reject) => {
-            request(`${safe?this.baseUrl:this.ruleUrl}&s=tag&limit=${limit}&order=${orderBy}&after_id=${afterId}`, (err, res, body) => {
+            request(`${this.baseUrl}&s=tag&limit=${limit}&order=${orderBy}&after_id=${afterId}`, (err, res, body) => {
                 if (err) {
                     reject(err);
                 } else {
