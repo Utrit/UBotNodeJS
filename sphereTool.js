@@ -32,7 +32,7 @@ module.exports = async (avatarURL, options = {}) => {
 
     const avatar = await Canvas.loadImage(avatarURL)
     avatarctx.drawImage(avatar,0,0,256,256);
-    avatarData =avatarctx.getImageData(0,0,avatar.width,avatar.height);
+    avatarData =avatarctx.getImageData(0,0,256,256);
     // Loop and create each frame
     for (let i = 0; i < FRAMES; i++) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)

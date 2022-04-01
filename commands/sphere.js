@@ -3,6 +3,7 @@ const { MessageEmbed, MessageActionRow, MessageButton, MessageAttachment } = req
 const config = require("../config.json")
 const alials = require("../alials.json");
 const sphereGif = require('../sphereTool.js')
+const allowExtension = ["png","jpg","jpeg","gif"]
 const command = "sphere"
 const syntaxes = "зашарить @user"
 const help = "Создает гифку шара по айди человека"
@@ -24,6 +25,9 @@ async function doCommand(message, messageArgs, commandPrototypes) {
 }
 
 async function onFile(message,attachedFile){
+    extension = attachedFile.split('.')
+    extension = extension[extension.length-1]
+    if(!allowExtension.includes(extension.toLowerCase())) return;
     let animatedGif = await sphereGif(
         attachedFile,
         {

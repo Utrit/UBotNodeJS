@@ -82,10 +82,9 @@ class Gelbooru {
                     reject(err);
                 } else {
                     let posts = JSON.parse(body);
-                    if (posts.post) posts=posts.post
-                    if (!posts[0].tags) resolve({ success: false, message: 'No posts found',tags:[]});
+                    if (posts.post==undefined) resolve({ success: false, message: 'No posts found',tags:[]});
                     this.lastPosts = posts;
-                    resolve(posts);
+                    resolve(posts.post);
                 }
             });
         })
