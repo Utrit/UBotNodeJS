@@ -56,7 +56,7 @@ async function onUser(message,member){
     let animatedGif = await sphereGif(
         member.displayAvatarURL({ format: "png", size: 256 }),
         {
-            resolution: 200,
+            resolution: 512,
         });
     const file = new MessageAttachment(animatedGif, "pet.gif");
     let customInfodel = { "call": command, "id": message.author.id, "do": "delete" };

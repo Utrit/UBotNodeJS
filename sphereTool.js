@@ -4,13 +4,13 @@ const GIFEncoder = require('gifencoder')
 const Canvas = require('canvas')
 const { abort } = require('process')
 
-const FRAMES = 10
+const FRAMES = 20
 
 const GifCache = []
 
 const defaultOptions = {
     resolution: 512,
-    delay: 100,
+    delay: 75,
     backgroundColor: null,
 }
 
@@ -31,8 +31,8 @@ module.exports = async (avatarURL, options = {}) => {
     const avatarctx = canvas.getContext('2d')
 
     const avatar = await Canvas.loadImage(avatarURL)
-    avatarctx.drawImage(avatar,0,0,256,256);
-    avatarData =avatarctx.getImageData(0,0,256,256);
+    avatarctx.drawImage(avatar,0,0,512,512);
+    avatarData =avatarctx.getImageData(0,0,512,512);
     // Loop and create each frame
     for (let i = 0; i < FRAMES; i++) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -41,13 +41,17 @@ module.exports = async (avatarURL, options = {}) => {
         ctx.drawImage(GifCache[i], 0, 0, options.resolution, options.resolution)
         var patternData = ctx.getImageData(0,0,options.resolution, options.resolution);
         data = patternData.data
-         for(var z = 0;z<data.length;z+=4){
-             let pos = (data[z+1]*256+data[z])<<2;
-             
-             data[z] = avatarData.data[pos]
-             data[z+1] = avatarData.data[pos+1]
-             data[z+2] = avatarData.data[pos+2]
-         }
+        for(var z = 0;z<data.length;z+=4){
+            let map = Math.floor((data[z+2]+3)/60);
+            let y = data[z+1]+(map>1?255:0);
+            let x = data[z]+(map%2)*255;
+            let pos = (x+y*512)<<2;
+            if(true){
+            data[z] = avatarData.data[pos]
+            data[z+1] = avatarData.data[pos+1]
+            data[z+2] = avatarData.data[pos+2]
+            }
+        }
          patternData.data=data;
         ctx.putImageData(patternData,0,0)
 
