@@ -1,17 +1,17 @@
-const Discord = require("discord.js");
-const holidays = require('./holidays.json');
-const filesystem = require("fs");
-const config = require("./config.json");
-const alials = require("./alials.json");
-const toolkit = require("./toolkit.js")
-const { Permissions } = require('discord.js');
-const { EventEmitter } = require("stream");
+const Discord           = require("discord.js");
+const holidays          = require('./holidays.json');
+const filesystem        = require("fs");
+const config            = require("./config.json");
+const alials            = require("./alials.json");
+const toolkit           = require("./toolkit.js")
+const { Permissions }   = require('discord.js');
+const { EventEmitter }  = require("stream");
 const { fork } = require('child_process');
 const client = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES", "DIRECT_MESSAGES"],
     partials: ["CHANNEL"]
 });
-process.on('uncaughtException', (err,info) => { toolkit.loginfo(`${err},${info},-,-,-,-,-`) });
+process.on('uncaughtException', (err,info)  => { toolkit.loginfo(`${err},${info},-,-,-,-,-`) });
 process.on('unhandledRejection', (err,info) => { toolkit.loginfo(`${err},${info},-,-,-,-,-`) });
 const commandEvent = new EventEmitter;
 const interactionEvent = new EventEmitter;
@@ -32,7 +32,6 @@ client.login(config.token);
 
 client.once("ready", () => {
     console.log("\x1b[32mDiscord client ready");
-    logserver = fork(__dirname+"/logserver/httpserver.js")
     console.log("\x1b[32mRegestration events");
     for (let index = 0; index < commandPrototypes.length; index++) {
         commandEvent.on(commandPrototypes[index].command, commandPrototypes[index].doCommand)
@@ -43,12 +42,6 @@ client.once("ready", () => {
         }
     }
     console.log("\x1b[32mRegestration complete");
-    console.log("Start heartbeat");
-    logchannel = client.channels.cache.get("847837964121014302");
-    setInterval(() => {
-        commandEvent.emit("goodday", logchannel)
-    }, 50000);
-    console.log("\x1b[32mHeartbeat started");
 });
 client.on("messageCreate", async message => {
     messageArgs = message.content.toLowerCase().split(' ');
