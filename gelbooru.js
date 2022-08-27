@@ -77,10 +77,12 @@ class Gelbooru {
 
     async getPosts(tags = this.tags, limit = this.limit, pid = 0,safe) {
         return new Promise((resolve, reject) => {
-            request(`${this.baseUrl}&s=post&tags=${tags}&limit=${limit}&pid=${pid}`, (err, res, body) => {
+            //console.log(`${this.baseUrl}&s=post&tags=${tags}&limit=${limit}&pid=${pid}&api_key=c0427e298b1a0e797ba21f87a60f8dbd2192b5f775e239dc4d8073a180d43521&user_id=1044201`);
+            request(`${this.baseUrl}&s=post&tags=${tags}&limit=${limit}&pid=${pid}&api_key=c0427e298b1a0e797ba21f87a60f8dbd2192b5f775e239dc4d8073a180d43521&user_id=1044201`, (err, res, body) => {
                 if (err) {
                     reject(err);
                 } else {
+                    //console.log(body);
                     let posts = JSON.parse(body);
                     if (posts.post==undefined) resolve({ success: false, message: 'No posts found',tags:[]});
                     this.lastPosts = posts;

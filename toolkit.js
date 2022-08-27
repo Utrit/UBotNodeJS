@@ -33,9 +33,9 @@ async function getMessage(tags, author, command, safe) {
             findCursedTags[findCursedTags.length] = tags[index];
             tags[index] = '';
         }
-        if (tags[index] == "rating:safe" || tags[index] == "rating:explicit") tags[index] = ''
+        if (tags[index] == "rating:general" || tags[index] == "rating:explicit") tags[index] = ''
     }
-    if (safe) tags.splice(0, 0, `rating:safe`);
+    if (safe) tags.splice(0, 0, `rating:general`);
     if (!safe) tags.splice(0, 0, `rating:explicit`);
     tags = getTags(tags)
     let succses = false

@@ -7,7 +7,7 @@ const errcode = {
 }
 const command = "goat"
 const syntaxes = "Запрос на картинку козочки"
-const tags = ["rating:safe", "ganyu", "1girl"]
+const tags = ["rating:general", "ganyu", "1girl"]
 const hasInteraction = "true"
 function doCommand(message) {
     toolkit.getMessage(tags, message.author, command, true).then((data) => {
