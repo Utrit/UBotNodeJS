@@ -1,0 +1,10 @@
+{
+    "token":"TOKEN",
+    "modulePath":"/commands/",
+    "cursedTags":"/cursedTags.json",
+    "cursedTagsNSFW":"/cursedTagsNSFW.json",
+    "logs":"/logserver/data/log.csv",
+    "prefix":"!",
+    "author":"Utrit",
+    "version":"0.2.3"
+}
